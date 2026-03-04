@@ -1,0 +1,88 @@
+<div class="generic-table-container">
+
+  <div class="search-wrapper">
+    <i class="bi bi-search"></i>
+    <input
+      type="text"
+      class="form-control"
+      placeholder="Search..."
+      [(ngModel)]="searchTerm"
+    />
+  </div>
+
+  <div class="table-responsive overflow-visible">
+
+    <table class="table custom-table align-middle">
+
+      <thead>
+        <tr>
+          <th *ngFor="let col of columns">
+            {{ col.label }}
+          </th>
+          <th class="text-end">Actions</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        <tr *ngIf="filteredData.length === 0">
+          <td 
+            [attr.colspan]="columns.length + 1"
+            class="text-center py-4 text-muted"
+          >
+            No records found
+          </td>
+        </tr>
+
+        <tr
+          *ngFor="let row of filteredData; trackBy: trackByFn"
+          class="table-row"
+        >
+
+        <td *ngFor="let col of columns">
+          {{ resolveValue(row, col.key) }}
+        </td>
+
+          <td class="text-end">
+            <div class="dropdown">
+              <button
+                class="btn btn-actions"
+                type="button"
+                data-bs-toggle="dropdown"
+              >
+                <i class="bi bi-three-dots-vertical"></i>
+              </button>
+
+              <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                <li>
+                  <button class="dropdown-item" (click)="view.emit(row)">
+                    View
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item" (click)="edit.emit(row)">
+                    Edit
+                  </button>
+                </li>
+                <li>
+                  <button class="dropdown-item text-danger" (click)="delete.emit(row)">
+                    Delete
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+  </div>
+
+  <div class="table-footer">
+    Total: <strong>{{ filteredData.length }}</strong> 
+    {{ filteredData.length === 1 ? 'record' : 'records' }}
+  </div>
+
+</div>
