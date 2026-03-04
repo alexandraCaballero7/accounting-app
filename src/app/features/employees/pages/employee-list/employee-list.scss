@@ -1,0 +1,23 @@
+.card {
+  border-radius: 12px;
+}
+
+.table-wrapper {
+  width: 100%;
+}
+
+td .btn:hover {
+  cursor: pointer;
+  background-color: rgba(0,0,0,0.05);
+  border-radius: 4px;
+}
+
+@media (max-width: 576px) {
+  .d-flex {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .btn {
+    width: 100%;
+  }
+}
