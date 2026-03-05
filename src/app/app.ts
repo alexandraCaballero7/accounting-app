@@ -1,9 +1,16 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { LoadingSpinnerComponent } from './shared/components/loading-spinner/loading-spinner';
+import { Navbar } from './shared/navbar/navbar';
+import { ToastComponent } from './shared/components/toast/toast';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [  
+    RouterOutlet,
+    LoadingSpinnerComponent,
+    Navbar,
+    ToastComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
