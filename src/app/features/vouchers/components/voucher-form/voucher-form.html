@@ -1,1 +1,122 @@
-<p>voucher-form works!</p>
+<form class="voucher-form">
+
+  <!-- HEADER FORM -->
+  <div [formGroup]="headerForm">
+
+    <div class="row g-4 mb-4">
+
+      <!-- Voucher Number -->
+      <div class="col-md-4">
+        <label class="form-label">Voucher Number</label>
+        <input
+          type="number"
+          class="form-control"
+          formControlName="voucherNumber"
+          placeholder="Enter voucher number">
+      </div>
+
+      <!-- Employee -->
+      <div class="col-md-4">
+        <label class="form-label">Employee</label>
+
+        <select
+          class="form-select"
+          formControlName="employeeId">
+
+          <option value="">Select employee</option>
+
+          <option
+            *ngFor="let emp of employees"
+            [value]="emp.id">
+
+            {{emp.firstName}} {{emp.lastName}}
+
+          </option>
+
+        </select>
+      </div>
+
+      <!-- Description -->
+      <div class="col-md-4">
+        <label class="form-label">Description</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="description"
+          placeholder="Voucher description">
+      </div>
+
+    </div>
+
+  </div>
+
+  <hr class="mb-4">
+
+  <!-- ITEM FORM -->
+  <div [formGroup]="itemForm">
+
+    <div class="row g-4">
+
+      <div class="col-md-5">
+        <label class="form-label">Item Description</label>
+
+        <input
+          type="text"
+          class="form-control"
+          formControlName="description"
+          placeholder="Item description">
+      </div>
+
+      <div class="col-md-3">
+        <label class="form-label">Amount</label>
+
+        <input
+          type="number"
+          class="form-control"
+          formControlName="amount">
+      </div>
+
+      <div class="col-md-2">
+        <label class="form-label">Type</label>
+
+        <select
+          class="form-select"
+          formControlName="type">
+
+          <option [value]="1">Debit</option>
+          <option [value]="2">Credit</option>
+
+        </select>
+      </div>
+
+      <div class="col-md-2 d-flex align-items-end">
+
+        <button
+          type="button"
+          class="btn btn-primary w-100"
+          (click)="addVoucherItem()">
+
+          Add Item
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="text-end mt-4">
+
+    <button
+      type="button"
+      class="btn btn-success"
+      (click)="submit()">
+
+      Submit Voucher
+
+    </button>
+
+  </div>
+
+</form>

@@ -1,1 +1,21 @@
-<p>employee-detail works!</p>
+<div class=" d-flex justify-content-center align-items-start p-3 p-md-5">
+
+  <div class="employee-card w-100">
+
+
+    <div class="employee-header d-flex justify-content-between align-items-start">
+      <div>
+        <h2 class="title mb-1">Update Employee</h2>
+        <p class="subtitle mb-0">Update the profile of your employee</p>
+      </div>
+
+      <button class="btn-close btn-close-white" (click)="onCancel()"></button>
+    </div>
+
+
+    <div class="employee-body">
+      <employee-form (submitForm)="updateEmployee($event)"></employee-form>
+    </div>
+
+  </div>
+</div>

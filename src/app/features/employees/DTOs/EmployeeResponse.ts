@@ -1,9 +1,9 @@
 export class EmployeeResponse {
-  employeeId!: number;
-  firstName!: string;
-  lastName!: string;
-  email!: string;
-  phone!: string;
-  hireDate!: Date;
-  salary!: number;
+  EmployeeId!: number;
+  FirstName!: string;
+  LastName!: string;
+  Email!: string;
+  Phone!: string;
+  HireDate!: Date;
+  Salary!: number;
 }

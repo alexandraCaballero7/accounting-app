@@ -1,0 +1,48 @@
+
+
+.card-header {
+  background: linear-gradient(135deg,#4f46e5,#6366f1);
+  color: white;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+h4 {
+  font-weight: 600;
+}
+
+
+.voucher-page {
+ min-height: 100vh;
+  background: #f3f5f9;
+}
+
+.voucher-card {
+  max-width: 1100px;
+  border-radius: 18px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.08);
+}
+
+
+.voucher-header {
+  padding: 2rem;
+  color: white;
+  background: linear-gradient(135deg, #2563eb, #6d28d9);
+}
+
+.title {
+  font-weight: 600;
+}
+
+.subtitle {
+  opacity: .85;
+  font-size: .95rem;
+}
+
+.voucher-body {
+    padding: 2.5rem;
+}

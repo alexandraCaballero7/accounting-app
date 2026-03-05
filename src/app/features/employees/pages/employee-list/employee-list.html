@@ -3,7 +3,7 @@
 
     <div class="d-flex justify-content-between align-items-center p-3 border-bottom flex-wrap">
       
-        <div>  
+     <div>  
       <h2 class="mb-0">Employees</h2>
       <p >Manage your team members</p>
         </div> 
@@ -12,7 +12,7 @@
 
     <div class="table-wrapper flex-grow-1 p-3" style="overflow-y: auto; max-height: calc(90vh - 80px);">
       <app-generic-table
-        [data]="employees"
+        [data]="(employees$ | async) ?? []"
         [columns]="columns"
         (view)="onView($event)"
         (edit)="onEdit($event)"
@@ -22,3 +22,10 @@
 
   </div>
 </div>
+
+<app-confirm-dialog
+  *ngIf="showConfirm"
+  [message]="'Are you sure you want to delete ' + employeeToDelete?.firstName + '?'"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+</app-confirm-dialog>

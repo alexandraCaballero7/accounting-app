@@ -8,7 +8,7 @@
 
     <div class="table-wrapper flex-grow-1 p-3" style="overflow-y: auto; max-height: calc(90vh - 80px);">
       <app-generic-table
-        [data]="vouchers"
+        [data]="(vouchers$ | async) ?? []"
         [columns]="columns"
         (view)="onView($event)"
         (edit)="onEdit($event)"
@@ -18,3 +18,10 @@
 
   </div>
 </div>
+
+<app-confirm-dialog
+  *ngIf="showConfirm"
+  [message]="'Are you sure you want to delete ' + voucherToDelete?.voucherNumber + '?'"
+  (confirm)="onConfirmDelete()"
+  (cancel)="onCancelDelete()">
+</app-confirm-dialog>

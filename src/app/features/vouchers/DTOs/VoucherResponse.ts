@@ -4,12 +4,12 @@ export class VoucherResponse {
   employeeId!: number;
   totalAmount!: number;
   description!: string | null;
-  Employee!: EmployeeVoucherResponse;
-  Items!: VoucherItemRequest[];
+  employee!: EmployeeVoucherResponse;
+  items!: VoucherItemResponse[];
   
 }
 
-export class VoucherItemRequest {
+export class VoucherItemResponse {
   voucherItemId!: number;
   description!: string | null;
   amount!: number;

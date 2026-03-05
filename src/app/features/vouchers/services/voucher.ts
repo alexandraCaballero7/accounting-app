@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core';
 import { VoucherResponse } from '../DTOs/VoucherResponse';
-import { BehaviorSubject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { VoucherApiService } from './voucher-api';
 import { VoucherRequest } from '../DTOs/VoucherRequest';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class VoucherService {
   private vouchers$ = new BehaviorSubject<VoucherResponse[]>([]);
 
-  vouchersObs$ = this.vouchers$.asObservable();
+  vouchersObs$:  Observable<VoucherResponse[]> = this.vouchers$.asObservable();
   constructor(private voucherApi: VoucherApiService) {}
 
   load() {

@@ -4,9 +4,11 @@ import { environment } from "../../../environments/env";
 import { EmployeeResponse } from "../DTOs/EmployeeResponse";
 import { EmployeeRequest } from "../DTOs/EmployeeRequest";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EmployeeApiService {
-  private base = `${environment.apiUrl}/employees`;
+  private base = `${environment.apiUrl}/Employees`;
 
   constructor(private http: HttpService) {}
 

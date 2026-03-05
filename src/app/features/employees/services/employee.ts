@@ -1,14 +1,16 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, Observable } from "rxjs";
 import { EmployeeApiService } from "./employee-api";
 import {  EmployeeResponse } from "../DTOs/EmployeeResponse";
 import { EmployeeRequest } from "../DTOs/EmployeeRequest";
 
-@Injectable()
+@Injectable({
+  providedIn: 'root',
+})
 export class EmployeeService {
   private employees$ = new BehaviorSubject<EmployeeResponse[]>([]);
 
-  employeesObs$ = this.employees$.asObservable();
+ employeesObs$: Observable<EmployeeResponse[]> = this.employees$.asObservable();
 
   constructor(private api: EmployeeApiService) {}
 
@@ -21,7 +23,7 @@ export class EmployeeService {
   }
 
   create(dto: EmployeeRequest) {
-    this.api.create(dto).subscribe(() => this.load());
+    return this.api.create(dto);
   }
 
   update(id: number, dto: EmployeeRequest) {
