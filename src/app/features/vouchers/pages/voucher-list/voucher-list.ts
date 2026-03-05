@@ -25,7 +25,7 @@ export class VoucherListComponent implements OnInit {
      private router: Router) {}
   
   get vouchers$(): Observable<VoucherResponse[]> {  
-      return this.service.vouchersObs$; // ya es Observable<VoucherResponse[]>
+      return this.service.vouchersObs$; 
   }
   columns = [
     { key: 'voucherId', label: 'ID' },

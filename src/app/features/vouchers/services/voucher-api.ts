@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { environment } from '../../../environments/env';
+import { environment } from '../../../environments/environment';
 import { HttpService } from '../../../core/services/http.service';
 import { VoucherRequest } from '../DTOs/VoucherRequest';
 import { VoucherResponse } from '../DTOs/VoucherResponse';

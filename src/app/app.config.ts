@@ -9,9 +9,9 @@ import { loadingInterceptor } from './core/interceptors/loading-interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideBrowserGlobalErrorListeners(),
+      provideBrowserGlobalErrorListeners(),
       provideRouter(routes),
-    provideHttpClient(
+      provideHttpClient(
       withInterceptors([loadingInterceptor, errorInterceptor])) 
 
   ]

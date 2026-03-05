@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpService } from "../../../core/services/http.service";
-import { environment } from "../../../environments/env";
+import { environment } from "../../../environments/environment";
 import { EmployeeResponse } from "../DTOs/EmployeeResponse";
 import { EmployeeRequest } from "../DTOs/EmployeeRequest";
 
