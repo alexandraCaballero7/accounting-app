@@ -21,8 +21,8 @@ export class VoucherService {
     this.voucherApi.getById(id).subscribe(data => this.vouchers$.next([data]));
   }
 
-  loadByEmployeeId(employeeId: number) {
-    this.voucherApi.getByEmployeeId(employeeId).subscribe(data => this.vouchers$.next(data));
+  getByEmployeeId(employeeId: number) {
+    return this.voucherApi.getByEmployeeId(employeeId);
   }
 
   create(dto: VoucherRequest) {

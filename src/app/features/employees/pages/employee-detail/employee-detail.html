@@ -4,17 +4,23 @@
 
 
     <div class="employee-header d-flex justify-content-between align-items-start">
-      <div>
+      <div *ngIf="!readonly">
         <h2 class="title mb-1">Update Employee</h2>
         <p class="subtitle mb-0">Update the profile of your employee</p>
       </div>
+
+      <div *ngIf="readonly">
+        <h2 class="title mb-1">View Employee</h2>
+        <p class="subtitle mb-0">View the profile of your employee</p>
+      </div>
+
 
       <button class="btn-close btn-close-white" (click)="onCancel()"></button>
     </div>
 
 
     <div class="employee-body">
-      <employee-form (submitForm)="updateEmployee($event)"></employee-form>
+      <employee-form   [employee]="employee" [readonly]="readonly" (submitForm)="updateEmployee($event)"></employee-form>
     </div>
 
   </div>

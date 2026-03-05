@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./employee-form.scss']
 })
 export class EmployeeFormComponent {
-
+  @Input() readonly = false; 
   @Input() employee?: EmployeeRequest; 
   @Output() submitForm = new EventEmitter<EmployeeRequest>();
 

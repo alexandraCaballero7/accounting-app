@@ -18,8 +18,8 @@ export class EmployeeService {
     this.api.getAll().subscribe(data => this.employees$.next(data));
   }
 
-  loadById(id: number) {
-    this.api.getById(id).subscribe(data => this.employees$.next([data]));
+   getById(id: number) {
+    return this.api.getById(id);
   }
 
   create(dto: EmployeeRequest) {
@@ -27,11 +27,11 @@ export class EmployeeService {
   }
 
   update(id: number, dto: EmployeeRequest) {
-    this.api.update(id, dto).subscribe(() => this.load());
+    return this.api.update(id, dto);
   }
 
   delete(id: number) {
-    this.api.delete(id).subscribe(() => this.load());
+    return this.api.delete(id);
   }
 
 }

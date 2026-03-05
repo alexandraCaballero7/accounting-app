@@ -7,6 +7,8 @@ import { map, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 import { LoadingService } from '../../../../core/services/loading.service';
+import { ToastService } from '../../../../shared/components/services/toast';
+import { VoucherService } from '../../../vouchers/services/voucher';
 
 @Component({
   standalone: true,
@@ -25,60 +27,81 @@ export class EmployeeListComponent implements OnInit {
   employeeToDelete: any = null;
 
   constructor(
-    private service: EmployeeService,
+    private serviceEmployee: EmployeeService,
+    private serviceVochers: VoucherService,
     private router: Router,
-    private loadingService: LoadingService) {}
+    private toast: ToastService) {}
 
-  get employees$(): Observable<EmployeeResponse[]> {
-    return this.service.employeesObs$; // ya es Observable<EmployeeResponse[]>
-  }
-
-
-
-  columns = [
-    { key: 'employeeId', label: 'ID' },
-    { key: 'firstName', label: 'Name' },
-    { key: 'lastName', label: 'Last Name' },
-    { key: 'email', label: 'Email' },
-    { key: 'phone', label: 'Phone' },
-    { key: 'hireDate', label: 'Hire Date' },
-    { key: 'salary', label: 'Salary' } 
-  ];
+    get employees$(): Observable<EmployeeResponse[]> {
+      return this.serviceEmployee.employeesObs$; 
+    }
 
 
 
- ngOnInit() {
-   this.service.load();
+    columns = [
+      { key: 'employeeId', label: 'ID' },
+      { key: 'firstName', label: 'Name' },
+      { key: 'lastName', label: 'Last Name' },
+      { key: 'email', label: 'Email' },
+      { key: 'phone', label: 'Phone' },
+      { key: 'hireDate', label: 'Hire Date' },
+      { key: 'salary', label: 'Salary' } 
+    ];
 
-  }
 
 
-  onView(row: any) {  
-    this.router.navigate(['/employees', row.employeeId]);
-  }
+    ngOnInit() {
+      this.serviceEmployee.load();
+    } 
 
-  onCreate() {
-    this.router.navigate(['/employees/create']);
-  }
 
-  onEdit(row: any) {
-    this.router.navigate(['/employees', row.employeeId]);
-  }
+    onView(row: any) {  
+      this.router.navigate(['/employees/view', row.employeeId]);
+    }
 
-  onDelete(row: any) {
-   this.employeeToDelete = row;
-   this.showConfirm = true;
- }
+    onCreate() {
+      this.router.navigate(['/employees/create']);
+    }
 
-  onConfirmDelete() {
-   this.showConfirm = false;
-   this.employeeToDelete = null;
-  }
+    onEdit(row: any) {
+      this.router.navigate(['/employees', row.employeeId]);
+    }
 
-  onCancelDelete() {
-  this.showConfirm = false;
-  this.employeeToDelete = null;
-  }
   
+    onDelete(row: any) {
+    const employeeId = row.employeeId;
 
+      this.serviceVochers.getByEmployeeId(employeeId).subscribe(vouchers => {
+        
+        if (vouchers.length > 0) {
+          this.toast.error('This employee has vouchers and cannot be deleted');
+          return;
+        }
+
+        this.employeeToDelete = row;
+        this.showConfirm = true;
+      });
+    }
+
+    onConfirmDelete() {
+
+      if (!this.employeeToDelete) return;
+
+      this.serviceEmployee.delete(this.employeeToDelete.employeeId).subscribe(() => {
+
+        this.toast.success('Employee deleted successfully');
+
+        this.showConfirm = false;
+        this.employeeToDelete = null;
+
+        this.serviceEmployee.load(); 
+
+      });
+
+    }
+
+    onCancelDelete() {
+    this.showConfirm = false;
+    this.employeeToDelete = null;
+    }
 }

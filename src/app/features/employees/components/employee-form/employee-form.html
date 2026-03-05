@@ -6,7 +6,7 @@
       <label class="label">First Name</label>
       <div class="input-icon">
         <i class="bi bi-person"></i>
-        <input type="text" formControlName="firstName" placeholder="Enter first name">
+        <input type="text" formControlName="firstName" [readonly]="readonly" placeholder="Enter first name">
       </div>
     </div>
 
@@ -14,7 +14,7 @@
       <label class="label">Last Name</label>
       <div class="input-icon">
         <i class="bi bi-person"></i>
-        <input type="text" formControlName="lastName" placeholder="Enter last name">
+        <input type="text" formControlName="lastName" [readonly]="readonly"placeholder="Enter last name">
       </div>
     </div>
 
@@ -22,7 +22,7 @@
       <label class="label">Email</label>
       <div class="input-icon">
         <i class="bi bi-envelope"></i>
-        <input type="email" formControlName="email" placeholder="Enter email">
+        <input type="email" formControlName="email" [readonly]="readonly" placeholder="Enter email">
       </div>
     </div>
 
@@ -31,7 +31,7 @@
       <label class="label">Phone</label>
       <div class="input-icon">
         <i class="bi bi-telephone"></i>
-        <input type="text" formControlName="phone" placeholder="Enter phone number">
+        <input type="text" formControlName="phone" [readonly]="readonly" placeholder="Enter phone number">
       </div>
     </div>
 
@@ -39,7 +39,7 @@
       <label class="label">Hire Date</label>
       <div class="input-icon">
         <i class="bi bi-calendar"></i>
-        <input type="date" formControlName="hireDate">
+        <input type="date" formControlName="hireDate" [readonly]="readonly">
       </div>
     </div>
 
@@ -47,14 +47,14 @@
       <label class="label">Salary</label>
       <div class="input-icon">
         <i class="bi bi-currency-dollar"></i>
-        <input type="number" formControlName="salary" placeholder="Enter salary">
+        <input type="number" formControlName="salary" [readonly]="readonly" placeholder="Enter salary">
       </div>
     </div>
 
   </div>
 
-  <div class="text-end mt-5">
-    <button type="submit" class="submit-btn">
+  <div class="text-end mt-5" *ngIf="!readonly">
+    <button type="submit"  class="submit-btn">
       ✓ Submit
     </button>
   </div>
