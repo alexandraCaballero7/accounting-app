@@ -1,11 +1,23 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
+  standalone: true,
   selector: 'app-confirm-dialog',
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './confirm-dialog.html',
-  styleUrl: './confirm-dialog.scss',
+  styleUrls: ['./confirm-dialog.scss'],
 })
-export class ConfirmDialog {
+export class ConfirmDialogComponent {
+@Input() message: string = 'Are you sure?'; // <-- CORREGIDO: ahora es Input
+  @Output() confirm = new EventEmitter<void>();
+  @Output() cancel = new EventEmitter<void>();
 
+  onConfirm() {
+    this.confirm.emit();
+  }
+
+  onCancel() {
+    this.cancel.emit();
+  }
 }

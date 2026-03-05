@@ -1,0 +1,33 @@
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+}
+
+.custom-toast {
+  min-width: 250px;
+  padding: 12px 18px;
+  border-radius: 10px;
+
+  color: white;
+  font-weight: 500;
+
+  background: rgba(0, 0, 0, 0.6); // translucido
+  backdrop-filter: blur(6px);
+
+  box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}

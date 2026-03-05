@@ -1,1 +1,9 @@
-<p>confirm-dialog works!</p>
+<div class="confirm-backdrop">
+  <div class="confirm-card shadow-sm p-4 rounded">
+    <p class="mb-3">{{ message }}</p>
+    <div class="d-flex justify-content-end gap-2">
+      <button class="btn btn-secondary btn-sm" (click)="onCancel()">Cancel</button>
+      <button class="btn btn-primary btn-sm" (click)="onConfirm()">Delete</button>
+    </div>
+  </div>
+</div>
