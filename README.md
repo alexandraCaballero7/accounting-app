@@ -10,8 +10,8 @@ The application allows users to manage **Employees** and **Accounting Vouchers**
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-repository/accounting-voucher-frontend.git
-cd accounting-voucher-frontend
+git clone https://github.com/alexandraCaballero7/accounting-app.git
+
 ```
 
 ### 2. Install dependencies
