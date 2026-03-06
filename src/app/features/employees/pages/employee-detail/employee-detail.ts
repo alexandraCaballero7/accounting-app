@@ -24,7 +24,7 @@ import { ConfirmDialogService } from '../../../../shared/components/services/con
 })
 export class EmployeeDetailComponent {
     employee?: EmployeeRequest;
-    vouchers: VoucherResponse[] = [];
+    vouchers: any[] = [];
     showConfirm = false;
     employeeToDelete: any = null;
     voucherToDelete: any = null;
@@ -35,7 +35,7 @@ export class EmployeeDetailComponent {
   { key: 'voucherNumber', label: 'Voucher #' },
   { key: 'description', label: 'Description' },
   { key: 'totalAmount', label: 'Total Amount' },
-  { key: 'createdAt', label: 'Date' }
+  { key: 'date', label: 'Date' }
 ];
 
     constructor(
@@ -68,9 +68,16 @@ export class EmployeeDetailComponent {
 
       });
 
-        this.getVouchersByEmployeeId(id).subscribe(vouchers => {
-          this.vouchers = vouchers;
-        });
+         this.getVouchersByEmployeeId(id).subscribe(vouchers => {
+            this.vouchers = vouchers.map(v => ({
+            ...v,
+            date: new Date(v.date).toLocaleDateString(),
+            totalAmount: Number(v.totalAmount).toLocaleString('en-US', {
+              style: 'currency',
+              currency: 'USD'
+            })
+          }));
+      });
    }
 
 

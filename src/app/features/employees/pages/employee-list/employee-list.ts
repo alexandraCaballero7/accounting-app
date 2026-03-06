@@ -35,16 +35,24 @@ export class EmployeeListComponent implements OnInit {
       return this.serviceEmployee.employeesObs$; 
     }
 
+    get employeesFormatted$(): Observable<any[]> {
+  return this.serviceEmployee.employeesObs$.pipe(
+    map(employees =>
+      employees.map(e => ({
+        ...e,
+        employeeName: `${e.firstName} ${e.lastName}`
+      }))
+    )
+  );
+}
+
 
 
     columns = [
-      { key: 'employeeId', label: 'ID' },
-      { key: 'firstName', label: 'Name' },
-      { key: 'lastName', label: 'Last Name' },
+      { key: 'employeeName', label: 'Employee Name' },
       { key: 'email', label: 'Email' },
-      { key: 'phone', label: 'Phone' },
-      { key: 'hireDate', label: 'Hire Date' },
-      { key: 'salary', label: 'Salary' } 
+      { key: 'department', label: 'Department' },
+      { key: 'position', label: 'Position' }
     ];
 
 

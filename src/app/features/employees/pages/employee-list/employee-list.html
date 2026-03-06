@@ -12,7 +12,7 @@
 
     <div class="table-wrapper flex-grow-1 p-3" style="overflow-y: auto; max-height: calc(90vh - 80px);">
       <app-generic-table
-        [data]="(employees$ | async) ?? []"
+        [data]="(employeesFormatted$ | async) ?? []"
         [columns]="columns"
         (view)="onView($event)"
         (edit)="onEdit($event)"

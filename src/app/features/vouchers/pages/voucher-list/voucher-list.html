@@ -8,7 +8,7 @@
 
     <div class="table-wrapper flex-grow-1 p-3" style="overflow-y: auto; max-height: calc(90vh - 80px);">
       <app-generic-table
-        [data]="(vouchers$ | async) ?? []"
+        [data]="(vouchersFormatted$ | async) ?? []"
         [columns]="columns"
         (view)="onView($event)"
         (edit)="onEdit($event)"

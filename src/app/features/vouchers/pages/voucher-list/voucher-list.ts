@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GenericTableComponent } from '../../../../shared/components/generic-table/generic-table.component/generic-table.component';
 import { VoucherService } from '../../services/voucher';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { VoucherResponse } from '../../DTOs/VoucherResponse';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog';
@@ -30,13 +30,25 @@ export class VoucherListComponent implements OnInit {
   get vouchers$(): Observable<VoucherResponse[]> {  
       return this.VoucherService.vouchersObs$; 
   }
+  get vouchersFormatted$(): Observable<any[]> {
+    return this.VoucherService.vouchersObs$.pipe(
+      map(vouchers =>
+        vouchers.map(v => ({
+          ...v,
+          employeeName: `${v.employee.firstName} ${v.employee.lastName}`,
+          date: new Date(v.date).toLocaleDateString()
+        }))
+      )
+    );
+  }
+  
   columns = [
-    { key: 'voucherId', label: 'ID' },
     { key: 'voucherNumber', label: 'Voucher Code' },
+    { key: 'employeeName', label: 'Employee Name' },
     { key: 'description', label: 'Description' },
-    { key: 'totalAmount', label: 'Amount' },
     { key: 'date', label: 'Date' },
   ];
+
 
   ngOnInit() {
     this.VoucherService.load();
