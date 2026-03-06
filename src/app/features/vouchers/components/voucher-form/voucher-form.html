@@ -1,11 +1,9 @@
 <form class="voucher-form">
 
-  <!-- HEADER FORM -->
   <div [formGroup]="headerForm">
 
-    <div class="row g-4 mb-4">
+    <div class="row g-4 mb-3">
 
-      <!-- Voucher Number -->
       <div class="col-md-4">
         <label class="form-label">Voucher Number</label>
         <input
@@ -15,14 +13,13 @@
           placeholder="Enter voucher number">
       </div>
 
-      <!-- Employee -->
       <div class="col-md-4">
         <label class="form-label">Employee</label>
 
         <select
           class="form-select"
-          formControlName="employeeId" >
-        
+          formControlName="employeeId">
+
           <option value="">Select employee</option>
 
           <option
@@ -36,24 +33,37 @@
         </select>
       </div>
 
-      <!-- Description -->
       <div class="col-md-4">
-        <label class="form-label">Description</label>
+        <label class="form-label">Date</label>
         <input
-          type="text"
+          type="date"
           class="form-control"
+          formControlName="date">
+      </div>
+
+    </div>
+
+    <div class="row mb-4">
+
+      <div class="col-12">
+        <label class="form-label">Description</label>
+
+        <textarea
+          class="form-control"
+          rows="3"
           formControlName="description"
-          placeholder="Voucher description">
+          placeholder="Write voucher description">
+        </textarea>
+
       </div>
 
     </div>
 
   </div>
 
-  <hr class="mb-4" >
+  <hr class="mb-4">
 
-  <!-- ITEM FORM -->
-  <div [formGroup]="itemForm"  *ngIf="!readonly">
+  <div [formGroup]="itemForm" *ngIf="!readonly">
 
     <div class="row g-4">
 
@@ -73,8 +83,7 @@
         <input
           type="number"
           class="form-control"
-          formControlName="amount" >
-
+          formControlName="amount">
       </div>
 
       <div class="col-md-2">
@@ -82,7 +91,7 @@
 
         <select
           class="form-select"
-          formControlName="type" >
+          formControlName="type">
 
           <option [value]="0">Debit</option>
           <option [value]="1">Credit</option>

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { VoucherItemRequest } from '../../DTOs/VoucherRequest';
 import { VoucherResponse } from '../../DTOs/VoucherResponse';
+import { DateUtils } from '../../../../shared/utils/date-utils';
 
 @Component({
   selector: 'app-voucher-form',
@@ -27,7 +28,8 @@ export class VoucherForm {
     this.headerForm = this.fb.group({
       voucherNumber:[null, Validators.required],
       employeeId:[null, Validators.required],
-      description:['']
+      description:[''],
+      date: ['', Validators.required],
     });
 
     this.itemForm = this.fb.group({
@@ -41,10 +43,17 @@ export class VoucherForm {
 ngOnChanges() {
 
   if (this.voucher) {
+
+      const dateString =this.voucher.date
+          ? DateUtils.toDateInput(this.voucher.date)!
+          : '';
+
+
     this.headerForm.patchValue({
       voucherNumber: this.voucher.voucherNumber,
       employeeId: this.voucher.employeeId,
-      description: this.voucher.description
+      description: this.voucher.description,
+      date: dateString
     });
   }
 
@@ -96,19 +105,17 @@ addVoucherItem() {
 }
 
   submit() {
+    if (this.headerForm.valid) {
+      const value = {
+         ...this.headerForm.value,
+         employeeId: Number(this.headerForm.value.employeeId)
+       };
+      value.date = DateUtils.fromDateInput(value.date)!;
 
-  if (!this.headerForm.valid) {
-    this.headerForm.markAllAsTouched();
-    return;
+      this.submitVoucher.emit(value);
+    } else {
+      this.headerForm.markAllAsTouched();
+    }
   }
-
-  const voucher = {
-    ...this.headerForm.value,
-    employeeId: Number(this.headerForm.value.employeeId)
-  };
-
-  this.submitVoucher.emit(voucher);
-
-}
 
 }

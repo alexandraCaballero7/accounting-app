@@ -5,6 +5,8 @@ export class EmployeeRequest {
   phone!: string;
   hireDate!: Date;
   salary!: number;
+  department!: string;
+  position!: string;
 }
 
 export class EmployeeFormRequest {
@@ -14,4 +16,6 @@ export class EmployeeFormRequest {
   phone!: string;
   hireDate!: string;
   salary!: number;
+  department!: string;
+  position!: string;
 }

@@ -61,7 +61,9 @@ export class EmployeeDetailComponent {
           email: employee.email,
           phone: employee.phone,
           hireDate: employee.hireDate,
-          salary: employee.salary
+          salary: employee.salary,
+          department: employee.department,
+          position: employee.position
         };
 
       });

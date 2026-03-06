@@ -6,4 +6,6 @@ export class EmployeeResponse {
   phone!: string;
   hireDate!: Date;
   salary!: number;
+  department!: string;
+  position!: string;
 }

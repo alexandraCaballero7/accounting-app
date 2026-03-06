@@ -4,6 +4,7 @@ export class VoucherResponse {
   employeeId!: number;
   totalAmount!: number;
   description!: string | null;
+  date!: Date;
   employee!: EmployeeVoucherResponse;
   items!: VoucherItemResponse[];
   

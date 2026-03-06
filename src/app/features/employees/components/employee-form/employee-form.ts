@@ -28,6 +28,8 @@ export class EmployeeFormComponent {
       phone: ['', Validators.required],
       hireDate: ['', Validators.required],
       salary: ['', [Validators.required, Validators.min(0)]],
+      department: ['', Validators.required],
+      position: ['', Validators.required]
     });
   }
 
