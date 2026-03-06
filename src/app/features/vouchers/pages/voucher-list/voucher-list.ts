@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { VoucherResponse } from '../../DTOs/VoucherResponse';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog';
+import { ToastService } from '../../../../shared/components/services/toast';
 
 @Component({
   standalone: true,
@@ -21,11 +22,12 @@ export class VoucherListComponent implements OnInit {
  showConfirm = false;
  voucherToDelete: any = null;
   constructor(
-    private service: VoucherService,
-     private router: Router) {}
+    private VoucherService: VoucherService,
+     private router: Router,
+     private toast: ToastService) {}
   
   get vouchers$(): Observable<VoucherResponse[]> {  
-      return this.service.vouchersObs$; 
+      return this.VoucherService.vouchersObs$; 
   }
   columns = [
     { key: 'voucherId', label: 'ID' },
@@ -36,26 +38,33 @@ export class VoucherListComponent implements OnInit {
   ];
 
   ngOnInit() {
-    this.service.load();
+    this.VoucherService.load();
   }
 
   onView(row: any) {    
-     console.log('view', row)
-    this.router.navigate(['/vouchers', row.voucherId]);
+    this.router.navigate(['/vouchers/view', row.voucherId]);
   }
   onEdit(row: any) {
     console.log('view', row)
-    this.router.navigate(['/vouchers', row.voucherId]);
+    this.router.navigate(['/vouchers/edit', row.voucherId]);
   }
-    onDelete(row: any) {
+
+
+ onDelete(row: any) {
   this.voucherToDelete = row;
   this.showConfirm = true;
 }
 
 onConfirmDelete() {
-  console.log('delete', this.voucherToDelete);
+  if(!this.voucherToDelete) return;
+
+  this.VoucherService.delete(this.voucherToDelete.voucherId).subscribe(() => {
+  this.toast.success('Employee deleted successfully');
   this.showConfirm = false;
   this.voucherToDelete = null;
+
+  this.VoucherService.load();
+  });
 }
 
 onCancelDelete() {

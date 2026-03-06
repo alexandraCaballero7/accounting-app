@@ -8,7 +8,8 @@ import { VoucherCreateComponent } from './pages/voucher-create/voucher-create';
 const routes: Routes = [
   { path: '', component: VoucherListComponent },
   { path: 'create', component: VoucherCreateComponent },
-  { path: ':id', component: VoucherDetailComponent }
+  { path: 'edit/:id', component: VoucherDetailComponent },
+   { path: 'view/:id', component: VoucherDetailComponent }
 ];
 
 @NgModule({

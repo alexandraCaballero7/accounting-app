@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 import { VoucherForm } from '../../components/voucher-form/voucher-form'; 
 import { CommonModule } from '@angular/common';
-import {  VoucherItemResponse } from '../../DTOs/VoucherResponse';
+import {  VoucherItemResponse, VoucherResponse } from '../../DTOs/VoucherResponse';
 import { VoucherItemsTable } from '../../components/voucher-items-table/voucher-items-table';
-import { Router } from '@angular/router';
-import { VoucherItemRequest } from '../../DTOs/VoucherRequest';
+import { ActivatedRoute, Router } from '@angular/router';
+import { VoucherItemRequest, VoucherRequest } from '../../DTOs/VoucherRequest';
+import { VoucherService } from '../../services/voucher';
+import { ToastService } from '../../../../shared/components/services/toast';
+import { EmployeeService } from '../../../employees/services/employee';
+import { EmployeeResponse } from '../../../employees/DTOs/EmployeeResponse';
+import { Observable } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -16,64 +21,90 @@ import { VoucherItemRequest } from '../../DTOs/VoucherRequest';
 export class VoucherDetailComponent {
 
   items: VoucherItemRequest[] = [];
-  constructor(private router: Router) {}
+  editingIndex: number | null = null;
+  itemToEdit: VoucherItemRequest | null = null;
+  voucher: VoucherResponse | null = null;
+  readonly = false;
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private voucherService: VoucherService,
+    private employeeService: EmployeeService,
+    private toast: ToastService) {}
   
-    employees = [
-    { id: 1, firstName: 'John', lastName: 'Doe' },
-    { id: 2, firstName: 'Jane', lastName: 'Smith' },
-    { id: 3, firstName: 'Carlos', lastName: 'Lopez' }
-  ];
+       get employees$(): Observable<EmployeeResponse[]> {
+          return this.employeeService.employeesObs$; 
+        }
 
 
-  voucher:any;
+  
 
 
   ngOnInit(){
+      this.employeeService.load();
 
-    // Simulación de carga
-    this.voucher = {
-      voucherNumber:1001,
-      employeeId:3,
-      description:'Office expenses'
-    };
+      const id = Number(this.route.snapshot.paramMap.get('id'));
+      const isView = this.route.snapshot.url.some(segment => segment.path === 'view');
+
+      this.readonly = isView;
+
+      this.voucherService.getById(id).subscribe(voucher => {
+        this.voucher = voucher;
+        this.items = voucher.items.map((i: any) => ({
+          description: i.description,
+          amount: i.amount,
+          type: i.amount < 0 ? 1 : 0, // deducir tipo por el signo del monto
+          voucherItemId: i.voucherItemId
+        }));
+      });
+
 
   }
 
-  // mapear VoucherRequestItem -> VoucherResponseItem
-  addItem(item: VoucherItemRequest) {
-    const newItem: VoucherItemResponse = {
-      ...item,
-      voucherItemId: 0 // Valor por defecto o null
-    };
-    this.items.push(newItem);
+addItem(item: VoucherItemRequest) {
+  if (this.editingIndex !== null) {
+    this.items[this.editingIndex] = item;  
+    this.editingIndex = null;
+  } else {
+    this.items.push(item);                
   }
+  this.itemToEdit = null;                 
+}
 
-   // editar item
-    editItem(item: VoucherItemRequest) {
-      console.log('Edit item', item);
-    }
+  editItem(event: { item: VoucherItemRequest, index: number }) {
 
-    // eliminar item
+  this.editingIndex = event.index;
+  this.itemToEdit = { ...event.item };
+
+}
+   
   deleteItem(index: number) {
     this.items.splice(index, 1);
   }
 
-    // total automático
+  
   get totalAmount(): number {
     return this.items.reduce((sum, i) => sum + Number(i.amount), 0);
   }
 
 
-  updateVoucher(header:any){
+updateVoucher(voucher: VoucherRequest) {
 
-    const voucher = {
-      ...header,
-      items:this.items
-    };
+  const id = Number(this.route.snapshot.paramMap.get('id'));
 
-    console.log("Update voucher", voucher);
+  const payload: VoucherRequest = {
+    ...voucher,
+    Items: this.items
+  };
 
-  }
+  this.voucherService.update(id, payload).subscribe(() => {
+
+    this.toast.success('Voucher updated successfully');
+    this.router.navigate(['/vouchers']);
+
+  });
+
+}
 
     onCancel() {
        this.router.navigate(['/vouchers']);

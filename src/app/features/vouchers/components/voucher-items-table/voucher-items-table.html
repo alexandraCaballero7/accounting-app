@@ -19,18 +19,23 @@
 
 <td>{{item.description}}</td>
 
-<td>{{item.amount}}</td>
+<td [ngClass]="{
+  'text-success': item.type == 0,
+  'text-danger': item.type == 1
+}">
+  {{ item.amount | currency }}
+</td>
 
 <td>
 
 <span
 class="badge"
 [ngClass]="{
-'bg-success':item.type==1,
-'bg-danger':item.type==2
+'bg-success':item.type==0,
+'bg-danger':item.type==1
 }">
 
-{{item.type==1 ? 'Debit':'Credit'}}
+{{item.type==0 ? 'Debit':'Credit'}}
 
 </span>
 
@@ -40,7 +45,7 @@ class="badge"
 
 <button
 class="btn btn-sm btn-outline-primary me-2"
-(click)="editItem.emit(item)">
+(click)="editItem.emit({ item, index: i })">
 
 Edit
 

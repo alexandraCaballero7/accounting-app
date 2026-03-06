@@ -15,7 +15,8 @@
 <div class="voucher-body">
 
 <app-voucher-form
-  [employees]="employees"
+  [employees]="(employees$ | async) ?? []"
+  [itemToEdit]="itemToEdit"
   (addItem)="addItem($event)"
   (submitVoucher)="submitVoucher($event)">
 </app-voucher-form>
@@ -23,7 +24,7 @@
 
 <app-voucher-items-table
   [items]="items"
-  (editItem)="editItem($event)"
+  (editItem)="editItem($event.item, $event.index)"
   (deleteItem)="deleteItem($event)">
 </app-voucher-items-table>
 

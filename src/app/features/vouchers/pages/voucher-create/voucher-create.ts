@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { VoucherForm } from '../../components/voucher-form/voucher-form'; 
@@ -6,6 +6,11 @@ import { VoucherItemsTable } from '../../components/voucher-items-table/voucher-
 
 import { VoucherRequest, VoucherItemRequest } from '../../DTOs/VoucherRequest';
 import { Router } from '@angular/router';
+import { VoucherService } from '../../services/voucher';
+import { ToastService } from '../../../../shared/components/services/toast';
+import { EmployeeService } from '../../../employees/services/employee';
+import { EmployeeResponse } from '../../../employees/DTOs/EmployeeResponse';
+import { Observable } from 'rxjs';
 
 @Component({
   standalone: true,
@@ -13,48 +18,63 @@ import { Router } from '@angular/router';
   imports: [
     CommonModule,
     VoucherForm,
-    VoucherItemsTable
+    VoucherItemsTable,
+    
   ],
   templateUrl: './voucher-create.html',
   styleUrl: './voucher-create.scss',
 })
-export class VoucherCreateComponent {
+export class VoucherCreateComponent implements OnInit {
 
   items: VoucherItemRequest[] = [];
-  constructor(private router: Router) {}
-
-  employees = [
-    { id: 1, firstName: 'John', lastName: 'Doe' },
-    { id: 2, firstName: 'Jane', lastName: 'Smith' },
-    { id: 3, firstName: 'Carlos', lastName: 'Lopez' }
-  ];
-
+  editingIndex: number | null = null;
+  itemToEdit: VoucherItemRequest | null = null;
   voucherHeader: any = null;
 
-  addItem(item: VoucherItemRequest) {
-    this.items.push(item);
+  constructor(
+    private router: Router,
+    private voucerService: VoucherService,
+    private employeeService: EmployeeService,
+    private toast: ToastService
+  ) {}
+
+     get employees$(): Observable<EmployeeResponse[]> {
+        return this.employeeService.employeesObs$; 
+      }
+     get totalAmount(): number {
+        return this.items.reduce((sum, i) => sum + Number(i.amount), 0);
+      }
+
+
+  ngOnInit() {
+      this.employeeService.load();
   }
+
+addItem(item: VoucherItemRequest) {
+  if (this.editingIndex !== null) {
+    this.items[this.editingIndex] = item;  
+    this.editingIndex = null;
+  } else {
+    this.items.push(item);                
+  }
+  this.itemToEdit = null;                 
+}
 
   deleteItem(index: number) {
     this.items.splice(index, 1);
   }
 
-  editItem(item: VoucherItemRequest) {
-    console.log('Edit item', item);
-  }
+editItem(item: VoucherItemRequest, index: number) {
+  this.editingIndex = index;
+  this.itemToEdit = { ...item }; 
+}
 
-  get totalAmount(): number {
-    return this.items.reduce((sum, i) => sum + Number(i.amount), 0);
-  }
-
-  submitVoucher(header: any) {
-
-    const payload: VoucherRequest = {
-      ...header,
-      totalAmount: this.totalAmount,
-      Items: this.items
-    };
-
+  submitVoucher(voucher: VoucherRequest) {
+    voucher.Items = this.items; 
+    this.voucerService.create(voucher).subscribe(() => {
+      this.toast.success('Voucher created successfully');
+      this.router.navigate(['/vouchers']);
+    });
   }
   
   onCancel() {

@@ -17,8 +17,8 @@ export class VoucherService {
     this.voucherApi.getAll().subscribe(data => this.vouchers$.next(data));
   }
 
-  loadById(id: number) {
-    this.voucherApi.getById(id).subscribe(data => this.vouchers$.next([data]));
+  getById(id: number) {
+    return this.voucherApi.getById(id);
   }
 
   getByEmployeeId(employeeId: number) {
@@ -26,14 +26,14 @@ export class VoucherService {
   }
 
   create(dto: VoucherRequest) {
-    this.voucherApi.create(dto).subscribe(() => this.load());
+    return this.voucherApi.create(dto);
   }
 
   update(id: number, dto: VoucherRequest) {
-    this.voucherApi.update(id, dto).subscribe(() => this.load());
+    return this.voucherApi.update(id, dto);
   }
 
   delete(id: number) {
-    this.voucherApi.delete(id).subscribe(() => this.load());
+    return this.voucherApi.delete(id);
   }
 }

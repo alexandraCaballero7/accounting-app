@@ -11,17 +11,12 @@ import { VoucherItemRequest } from '../../DTOs/VoucherRequest';
 })
 export class VoucherItemsTable {
 
-  // lista de items que vienen del componente padre
   @Input() items: VoucherItemRequest[] = [];
-
-  // evento para editar
-  @Output() editItem = new EventEmitter<VoucherItemRequest>();
-
-  // evento para eliminar
+  @Output() editItem = new EventEmitter<{ item: VoucherItemRequest, index: number }>();
   @Output() deleteItem = new EventEmitter<number>();
 
-  onEdit(item: VoucherItemRequest) {
-    this.editItem.emit(item);
+  onEdit(item: VoucherItemRequest, index: number) {
+    this.editItem.emit({ item, index });
   }
 
   onDelete(index: number) {
@@ -29,7 +24,7 @@ export class VoucherItemsTable {
   }
 
   getTypeLabel(type: number): string {
-    return type === 1 ? 'Debit' : 'Credit';
+    return type === 0 ? 'Debit' : 'Credit';
   }
 
 }

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { EmployeeRequest } from '../../DTOs/EmployeeRequest';
 import { Router } from '@angular/router';
+import { DateUtils } from '../../../../shared/utils/date-utils';
 
 @Component({
   selector: 'employee-form',
@@ -31,14 +32,26 @@ export class EmployeeFormComponent {
   }
 
   ngOnChanges() {
-    if (this.employee) {
-      this.form.patchValue(this.employee);
-    }
+      if (this.employee) {
+    const employeeData = { ...this.employee };
+    
+    const hireDateString = this.employee.hireDate
+      ? DateUtils.toDateInput(this.employee.hireDate)!
+      : '';
+
+    this.form.patchValue({
+      ...employeeData,
+      hireDate: hireDateString 
+    });
+  }
   }
 
   onSubmit() {
     if (this.form.valid) {
-      this.submitForm.emit(this.form.value);
+      const value = { ...this.form.value };
+      value.hireDate = DateUtils.fromDateInput(value.hireDate)!;
+
+      this.submitForm.emit(value);
     } else {
       this.form.markAllAsTouched();
     }
