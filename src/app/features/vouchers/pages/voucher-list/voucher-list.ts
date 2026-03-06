@@ -7,13 +7,13 @@ import { VoucherResponse } from '../../DTOs/VoucherResponse';
 import { Router } from '@angular/router';
 import { ConfirmDialogComponent } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 import { ToastService } from '../../../../shared/components/services/toast';
+import { ConfirmDialogService } from '../../../../shared/components/services/confirm-dialog';
 
 @Component({
   standalone: true,
   selector: 'app-voucher-list',
   imports: [CommonModule, 
-    GenericTableComponent,
-    ConfirmDialogComponent],
+    GenericTableComponent],
   templateUrl: './voucher-list.html',
   styleUrls: ['./voucher-list.scss'],
 })
@@ -24,7 +24,8 @@ export class VoucherListComponent implements OnInit {
   constructor(
     private VoucherService: VoucherService,
      private router: Router,
-     private toast: ToastService) {}
+     private toast: ToastService,
+     private confirmDialog: ConfirmDialogService) {}
   
   get vouchers$(): Observable<VoucherResponse[]> {  
       return this.VoucherService.vouchersObs$; 
@@ -50,26 +51,25 @@ export class VoucherListComponent implements OnInit {
   }
 
 
- onDelete(row: any) {
-  this.voucherToDelete = row;
-  this.showConfirm = true;
-}
+  onDelete(row: any) {
 
-onConfirmDelete() {
-  if(!this.voucherToDelete) return;
+    this.confirmDialog.open(
+    'Are you sure you want to delete this voucher?',
+    () => {
 
-  this.VoucherService.delete(this.voucherToDelete.voucherId).subscribe(() => {
-  this.toast.success('Employee deleted successfully');
-  this.showConfirm = false;
-  this.voucherToDelete = null;
+      this.VoucherService.delete(row.voucherId).subscribe(() => {
+        this.toast.success('Voucher deleted successfully');
 
-  this.VoucherService.load();
-  });
-}
+        this.VoucherService.delete(row.voucherId).subscribe(() => {
+          this.toast.success('Voucher deleted successfully');
+        });
 
-onCancelDelete() {
-  this.showConfirm = false;
-  this.voucherToDelete = null;
-}
+      });
+
+    }
+  );
+  }
+
+
   onCreate() { this.router.navigate(['/vouchers/create']); }
 }

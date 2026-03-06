@@ -9,26 +9,25 @@ import { ConfirmDialogComponent } from '../../../../shared/components/confirm-di
 import { LoadingService } from '../../../../core/services/loading.service';
 import { ToastService } from '../../../../shared/components/services/toast';
 import { VoucherService } from '../../../vouchers/services/voucher';
+import { ConfirmDialogService } from '../../../../shared/components/services/confirm-dialog';
 
 @Component({
   standalone: true,
   selector: 'app-employee-list',
   imports: [
     CommonModule,
-    GenericTableComponent,
-    ConfirmDialogComponent
+    GenericTableComponent
   ],
   templateUrl: './employee-list.html',
   styleUrl: './employee-list.scss',
 })
 export class EmployeeListComponent implements OnInit {
  
-  showConfirm = false;
-  employeeToDelete: any = null;
 
   constructor(
     private serviceEmployee: EmployeeService,
     private serviceVochers: VoucherService,
+      private confirmDialog: ConfirmDialogService,
     private router: Router,
     private toast: ToastService) {}
 
@@ -64,44 +63,35 @@ export class EmployeeListComponent implements OnInit {
     }
 
     onEdit(row: any) {
-      this.router.navigate(['/employees', row.employeeId]);
+      this.router.navigate(['/employees/edit', row.employeeId]);
     }
 
   
+
+
     onDelete(row: any) {
-    const employeeId = row.employeeId;
 
-      this.serviceVochers.getByEmployeeId(employeeId).subscribe(vouchers => {
-        
-        if (vouchers.length > 0) {
-          this.toast.error('This employee has vouchers and cannot be deleted');
-          return;
-        }
+     this.serviceVochers.getByEmployeeId(row.employeeId).subscribe(vouchers => {
+          
+          if (vouchers.length > 0) {
+            this.toast.error('This employee has vouchers and cannot be deleted');
+            return;
+          } 
+          else  {
+             this.confirmDialog
+              .open(`Are you sure you want to delete ${row.firstName}?`,
+              () => {
 
-        this.employeeToDelete = row;
-        this.showConfirm = true;
-      });
-    }
+                this.serviceEmployee.delete(row.employeeId).subscribe(() => {
+                    this.toast.success('Employee deleted successfully');
+                    
+                  });  
 
-    onConfirmDelete() {
+              });
+           }
 
-      if (!this.employeeToDelete) return;
-
-      this.serviceEmployee.delete(this.employeeToDelete.employeeId).subscribe(() => {
-
-        this.toast.success('Employee deleted successfully');
-
-        this.showConfirm = false;
-        this.employeeToDelete = null;
-
-        this.serviceEmployee.load(); 
 
       });
-
     }
-
-    onCancelDelete() {
-    this.showConfirm = false;
-    this.employeeToDelete = null;
-    }
+  
 }

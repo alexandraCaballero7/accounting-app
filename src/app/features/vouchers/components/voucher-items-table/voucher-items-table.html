@@ -8,7 +8,7 @@
 <th>Description</th>
 <th>Amount</th>
 <th>Type</th>
-<th class="text-center">Actions</th>
+<th *ngIf="!readonly" class="text-center">Actions</th>
 </tr>
 
 </thead>
@@ -19,62 +19,27 @@
 
 <td>{{item.description}}</td>
 
-<td [ngClass]="{
-  'text-success': item.type == 0,
-  'text-danger': item.type == 1
-}">
+<td [ngClass]="{'text-success': item.type == 0, 'text-danger': item.type == 1}">
   {{ item.amount | currency }}
 </td>
 
 <td>
-
-<span
-class="badge"
-[ngClass]="{
-'bg-success':item.type==0,
-'bg-danger':item.type==1
-}">
-
+<span class="badge" [ngClass]="{'bg-success':item.type==0,'bg-danger':item.type==1}">
 {{item.type==0 ? 'Debit':'Credit'}}
-
 </span>
-
 </td>
 
 <td class="text-center">
-
-<button
-class="btn btn-sm btn-outline-primary me-2"
-(click)="editItem.emit({ item, index: i })">
-
-Edit
-
-</button>
-
-<button
-class="btn btn-sm btn-outline-danger"
-(click)="deleteItem.emit(i)">
-
-Delete
-
-</button>
-
+<button *ngIf="!readonly" class="btn btn-sm btn-outline-primary me-2" (click)="editItem.emit({ item, index: i })"> Edit </button>
+<button *ngIf="!readonly" class="btn btn-sm btn-outline-danger" (click)="deleteItem.emit(i)">  Delete </button>
 </td>
 
 </tr>
 
 <tr *ngIf="items.length===0">
-
-<td colspan="4" class="text-center text-muted py-3">
-
-No items added
-
-</td>
-
+<td colspan="4" class="text-center text-muted py-3"> No items added </td>
 </tr>
 
 </tbody>
-
 </table>
-
 </div>

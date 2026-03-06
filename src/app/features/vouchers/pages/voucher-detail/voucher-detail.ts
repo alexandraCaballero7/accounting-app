@@ -10,6 +10,7 @@ import { ToastService } from '../../../../shared/components/services/toast';
 import { EmployeeService } from '../../../employees/services/employee';
 import { EmployeeResponse } from '../../../employees/DTOs/EmployeeResponse';
 import { Observable } from 'rxjs';
+import { ConfirmDialogService } from '../../../../shared/components/services/confirm-dialog';
 
 @Component({
   standalone: true,
@@ -30,7 +31,8 @@ export class VoucherDetailComponent {
     private route: ActivatedRoute,
     private voucherService: VoucherService,
     private employeeService: EmployeeService,
-    private toast: ToastService) {}
+    private toast: ToastService,
+    private confirmDialog: ConfirmDialogService) {}
   
        get employees$(): Observable<EmployeeResponse[]> {
           return this.employeeService.employeesObs$; 
@@ -106,7 +108,25 @@ updateVoucher(voucher: VoucherRequest) {
 
 }
 
-    onCancel() {
+
+onEditVoucher() {
+ this.router.navigate(['/vouchers/edit', this.route.snapshot.paramMap.get('id')]);
+}
+
+ onDeleteVoucher() {
+  const voucherId = Number(this.route.snapshot.paramMap.get('id'));
+  this.confirmDialog
+    .open(`Are you sure you want to delete voucher #${this.voucher?.voucherNumber}?`, () => {
+
+        this.voucherService.delete(voucherId).subscribe(() => {
+          this.toast.success('Voucher deleted successfully');
+          this.router.navigate(['/vouchers']);
+        });
+
+    });
+  }
+
+  onCancel() {
        this.router.navigate(['/vouchers']);
   }
 

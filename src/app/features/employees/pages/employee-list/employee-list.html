@@ -23,9 +23,3 @@
   </div>
 </div>
 
-<app-confirm-dialog
-  *ngIf="showConfirm"
-  [message]="'Are you sure you want to delete ' + employeeToDelete?.firstName + '?'"
-  (confirm)="onConfirmDelete()"
-  (cancel)="onCancelDelete()">
-</app-confirm-dialog>

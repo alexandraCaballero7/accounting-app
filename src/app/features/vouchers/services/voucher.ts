@@ -9,7 +9,7 @@ import { VoucherRequest } from '../DTOs/VoucherRequest';
 })
 export class VoucherService {
   private vouchers$ = new BehaviorSubject<VoucherResponse[]>([]);
-
+  
   vouchersObs$:  Observable<VoucherResponse[]> = this.vouchers$.asObservable();
   constructor(private voucherApi: VoucherApiService) {}
 

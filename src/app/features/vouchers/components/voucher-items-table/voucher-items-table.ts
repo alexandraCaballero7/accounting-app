@@ -10,10 +10,12 @@ import { VoucherItemRequest } from '../../DTOs/VoucherRequest';
   styleUrl: './voucher-items-table.scss',
 })
 export class VoucherItemsTable {
-
+  @Input() readonly = false;
   @Input() items: VoucherItemRequest[] = [];
   @Output() editItem = new EventEmitter<{ item: VoucherItemRequest, index: number }>();
   @Output() deleteItem = new EventEmitter<number>();
+
+
 
   onEdit(item: VoucherItemRequest, index: number) {
     this.editItem.emit({ item, index });
