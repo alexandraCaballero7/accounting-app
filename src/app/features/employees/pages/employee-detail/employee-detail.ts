@@ -94,19 +94,13 @@ export class EmployeeDetailComponent {
           } 
            else  {   
       
-        this.confirmDialog
-       .open(`Are you sure you want to delete ${this.employee?.firstName}?`, () => {
-
-       
-
-         this.employeeService.delete(employeeId).subscribe(() => {
-            this.toast.success('Employee deleted successfully');
-              this.router.navigate(['/employees']);
-          });
-
-       
-
-      }); } 
+              this.confirmDialog
+              .open(`Are you sure you want to delete ${this.employee?.firstName}?`, () => {
+              this.employeeService.delete(employeeId).subscribe(() => {
+                  this.toast.success('Employee deleted successfully');
+                  this.router.navigate(['/employees']);
+                });
+         }); } 
       });
 
     }

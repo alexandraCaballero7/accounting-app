@@ -84,6 +84,7 @@ export class EmployeeListComponent implements OnInit {
 
                 this.serviceEmployee.delete(row.employeeId).subscribe(() => {
                     this.toast.success('Employee deleted successfully');
+                    this.serviceEmployee.load();
                     
                   });  
 

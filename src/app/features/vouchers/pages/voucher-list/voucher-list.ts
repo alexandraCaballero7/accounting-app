@@ -59,10 +59,7 @@ export class VoucherListComponent implements OnInit {
 
       this.VoucherService.delete(row.voucherId).subscribe(() => {
         this.toast.success('Voucher deleted successfully');
-
-        this.VoucherService.delete(row.voucherId).subscribe(() => {
-          this.toast.success('Voucher deleted successfully');
-        });
+        this.VoucherService.load();
 
       });
 
