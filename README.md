@@ -1,59 +1,199 @@
-# AccountingApp
+# Accounting Voucher Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.1.4.
+Frontend application built to consume the **Accounting Voucher API**.
+The application allows users to manage **Employees** and **Accounting Vouchers** with their corresponding items.
 
-## Development server
+---
 
-To start a local development server, run:
+# 📦 Setup and Installation
+
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-repository/accounting-voucher-frontend.git
+cd accounting-voucher-frontend
+```
+
+### 2. Install dependencies
+
+Make sure you have **Node.js (v18 or higher)** installed.
+
+```bash
+npm install
+```
+
+---
+
+# ▶️ How to Run the Application
+
+Start the development server:
+
+```bash
+npm start
+```
+
+or
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+The application will be available at:
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+```
+http://localhost:4200
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
+# 🧰 Frameworks and Libraries Used
+
+Main technologies used in this project:
+
+* **Angular** – Frontend framework v21.1.4
+* **TypeScript** – Typed JavaScript
+* **Bootstrap 5** – UI styling and responsive layout
+* **RxJS** – Reactive programming for handling asynchronous data
+* **Angular Reactive Forms** – Form management and validation
+
+Custom components were created to improve reusability, including:
+
+* Generic Table Component
+* Confirmation Dialog Component
+* Toast Notification Service
+* Reusable Forms for Employees and Vouchers
+
+---
+
+# ⚙️ API Base URL Configuration
+
+The API base URL is configured in the environment files.
+
+Location:
+
+```
+src/environments/environment.ts
 ```
 
-## Building
+Example configuration:
 
-To build the project run:
-
-```bash
-ng build
+```ts
+export const environment = {
+  production: false,
+  apiUrl: 'https://your-api-url/api'
+};
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+In production:
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
+```
+src/environments/environment.prod.ts
 ```
 
-## Running end-to-end tests
+Example:
 
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
+```ts
+export const environment = {
+  production: true,
+  apiUrl: 'https://production-api-url/api'
+};
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+Services consume the API using this base URL:
 
-## Additional Resources
+```ts
+this.http.get(`${environment.apiUrl}/employees`)
+```
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+This allows easy switching between **development and production environments**.
+
+---
+
+# 📋 Features
+
+### Employees
+
+* List employees
+* Create employee
+* View employee details
+* Edit employee
+* Delete employee
+
+### Vouchers
+
+* List vouchers
+* Create accounting voucher
+* Add debit and credit items
+* Calculate totals (Debits, Credits, Total Amount)
+* View voucher details
+* Edit voucher
+* Delete voucher
+
+---
+
+# 🧩 Architecture
+
+The project follows a **feature-based structure**:
+
+```
+# 🧩 Architecture
+
+The project follows a **feature-based architecture** to improve scalability and maintainability.
+
+```
+src/app
+ ├── core
+ │    ├── interceptors
+ │    ├── services
+ │    └── models
+ │
+ ├── features
+ │    ├── employees
+ │    │    ├── pages
+ │    │    ├── components
+ │    │    ├── DTOs
+ │    │    └── services
+ │    │
+ │    └── vouchers
+ │         ├── pages
+ │         ├── components
+ │         ├── DTOs
+ │         └── services
+ │
+ ├── shared
+ │    ├── components
+ │    │    ├── generic-table
+ │    │    ├── confirm-dialog
+ │    │    └── loading-spinner
+ │    │
+ │    ├── services
+ │    │    └── toast.service
+ │    │
+ │    └── utils
+ │         └── date-utils
+ │
+ └── app.config.ts
+```
+
+### Folder Responsibilities
+
+core
+
+* Global services
+* HTTP interceptors
+* Application-wide logic
+
+features
+
+* Feature modules organized by business domain (Employees, Vouchers)
+
+shared
+
+* Reusable components, utilities, and services used across multiple features
+
+---
+
+# 👩‍💻 Author
+
+Frontend Developer Technical Assessment
+Developed by Alexandra Caballero
