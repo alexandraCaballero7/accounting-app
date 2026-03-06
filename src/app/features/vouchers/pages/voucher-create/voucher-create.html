@@ -28,16 +28,18 @@
   (deleteItem)="deleteItem($event)">
 </app-voucher-items-table>
 
-<div class="text-end mt-3">
 
-<h5>
-Total Amount:
-<span class="text-primary">
-{{ totalAmount | currency }}
-</span>
-</h5>
 
-</div>
+
+   <div class="text-end mt-3">
+          <div class="col">
+            <strong>Total Debits:</strong> {{ totalDebits | currency }}
+          </div>
+          <div class="col">
+            <strong>Total Credits:</strong> - {{ totalCredits | currency }}
+          </div>
+        <h5>Total Amount: <span class="text-primary">{{ totalAmount | currency }}</span></h5>
+   </div>
 
 </div>
 

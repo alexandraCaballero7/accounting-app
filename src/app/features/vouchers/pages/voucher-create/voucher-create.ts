@@ -45,6 +45,18 @@ export class VoucherCreateComponent implements OnInit {
         return this.items.reduce((sum, i) => sum + Number(i.amount), 0);
       }
 
+      get totalDebits(): number {
+      return this.items
+        .filter(i => i.amount > 0)
+        .reduce((sum, i) => sum + i.amount, 0);
+     }
+
+      get totalCredits(): number {
+        return this.items
+          .filter(i => i.amount < 0)
+          .reduce((sum, i) => sum + Math.abs(i.amount), 0);
+      }
+
 
   ngOnInit() {
       this.employeeService.load();
@@ -60,16 +72,16 @@ addItem(item: VoucherItemRequest) {
   this.itemToEdit = null;                 
 }
 
-  deleteItem(index: number) {
+deleteItem(index: number) {
     this.items.splice(index, 1);
-  }
+}
 
 editItem(item: VoucherItemRequest, index: number) {
   this.editingIndex = index;
   this.itemToEdit = { ...item }; 
 }
 
-  submitVoucher(voucher: VoucherRequest) {
+ submitVoucher(voucher: VoucherRequest) {
     voucher.Items = this.items; 
     this.voucerService.create(voucher).subscribe(() => {
       this.toast.success('Voucher created successfully');
@@ -77,7 +89,7 @@ editItem(item: VoucherItemRequest, index: number) {
     });
   }
   
-  onCancel() {
+ onCancel() {
        this.router.navigate(['/vouchers']);
   }
 }
