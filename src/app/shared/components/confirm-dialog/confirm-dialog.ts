@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ConfirmDialogService } from '../services/confirm-dialog';
 
 @Component({
   standalone: true,
@@ -9,15 +10,16 @@ import { CommonModule } from '@angular/common';
   styleUrls: ['./confirm-dialog.scss'],
 })
 export class ConfirmDialogComponent {
-@Input() message: string = 'Are you sure?'; // <-- CORREGIDO: ahora es Input
-  @Output() confirm = new EventEmitter<void>();
-  @Output() cancel = new EventEmitter<void>();
+ message = '';
+  visible = false;
 
-  onConfirm() {
-    this.confirm.emit();
+  constructor(public dialog: ConfirmDialogService) {}
+
+  confirm() {
+    this.dialog.confirm();
   }
 
-  onCancel() {
-    this.cancel.emit();
+  cancel() {
+    this.dialog.cancel();
   }
 }

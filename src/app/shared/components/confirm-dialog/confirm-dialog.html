@@ -1,9 +1,9 @@
-<div class="confirm-backdrop">
+<div *ngIf="dialog.visible" class="confirm-backdrop">
   <div class="confirm-card shadow-sm p-4 rounded">
-    <p class="mb-3">{{ message }}</p>
+    <p class="mb-3">{{ dialog.message }}</p>
     <div class="d-flex justify-content-end gap-2">
-      <button class="btn btn-secondary btn-sm" (click)="onCancel()">Cancel</button>
-      <button class="btn btn-primary btn-sm" (click)="onConfirm()">Delete</button>
+      <button class="btn btn-secondary btn-sm" (click)="cancel()">Cancel</button>
+      <button class="btn btn-primary btn-sm" (click)="confirm()">Delete</button>
     </div>
   </div>
 </div>
